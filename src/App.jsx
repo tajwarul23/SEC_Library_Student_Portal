@@ -73,7 +73,6 @@ function AppContent() {
     <Routes>
       {/* Explicit Auth Routes */}
       <Route path="/login" element={<AuthContainer />} />
-      <Route path="/auth" element={<AuthContainer />} />
 
       {/* Main Application Layout */}
       {!user ? (

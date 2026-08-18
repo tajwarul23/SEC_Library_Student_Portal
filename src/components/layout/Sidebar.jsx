@@ -7,7 +7,6 @@ import {
   BookMarked,
   FileText,
   LogOut,
-  ShieldCheck,
 } from 'lucide-react';
 import { Badge } from '../common/Badge';
 import logo from '../../assets/logo.png';
@@ -51,16 +50,6 @@ export const Sidebar = ({
           to: '/issued',
           label: 'My Issued Books',
           icon: BookMarked,
-        },
-      ],
-    },
-    {
-      title: 'ACCOUNT & IDENTITY',
-      items: [
-        {
-          to: '/auth',
-          label: 'Authentication & Profile',
-          icon: ShieldCheck,
         },
       ],
     },
