@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
 import { FineBanner } from '../common/FineBanner';
+import { ChatWidget } from '../../features/assistant/ui/ChatWidget';
 
 export const AppLayout = ({
   user,
@@ -62,6 +63,8 @@ export const AppLayout = ({
           </div>
         </footer>
       </div>
+
+      <ChatWidget />
     </div>
   );
 };
