@@ -7,7 +7,7 @@ import {
   BookMarked,
   FileText,
   LogOut,
-  MessageCircle,
+  Bot,
 } from 'lucide-react';
 import { Badge } from '../common/Badge';
 import logo from '../../assets/logo.png';
@@ -131,14 +131,28 @@ export const Sidebar = ({
           <button
             type="button"
             onClick={onToggleChat}
-            className={`w-full flex items-center justify-center gap-2 px-3 py-2 rounded text-xs font-medium border transition-colors cursor-pointer ${
+            className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-left transition-all cursor-pointer ring-1 ${
               isChatOpen
-                ? 'bg-[#0EA5E9]/10 text-[#38BDF8] border-[#0EA5E9]/40'
-                : 'bg-slate-800/80 hover:bg-slate-800 text-slate-300 border-slate-700/80'
+                ? 'bg-linear-to-r from-[#0EA5E9]/15 to-[#818CF8]/15 ring-[#0EA5E9]/50'
+                : 'bg-slate-800/60 hover:bg-linear-to-r hover:from-[#0EA5E9]/10 hover:to-[#818CF8]/10 ring-slate-700/80 hover:ring-[#0EA5E9]/30'
             }`}
           >
-            <MessageCircle className="w-3.5 h-3.5 text-[#38BDF8]" />
-            <span>Library Assistant</span>
+            <span className="relative shrink-0 w-8 h-8 rounded-full bg-linear-to-br from-[#0EA5E9] to-[#818CF8] flex items-center justify-center shadow-lg shadow-sky-500/20">
+              <Bot className="w-4 h-4 text-white" />
+              <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 ring-2 ring-[#152031]" />
+            </span>
+            <span className="min-w-0 flex-1">
+              <span
+                className={`block text-xs font-semibold leading-tight ${
+                  isChatOpen ? 'text-[#38BDF8]' : 'text-white'
+                }`}
+              >
+                Library Assistant
+              </span>
+              <span className="block text-[9px] text-slate-400 font-mono uppercase tracking-wider mt-0.5">
+                AI-Powered Chat
+              </span>
+            </span>
           </button>
 
           <button

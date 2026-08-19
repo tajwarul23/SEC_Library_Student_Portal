@@ -149,7 +149,7 @@ export const BookDetailModal = ({
           
           <p className="text-xs text-slate-600 leading-relaxed bg-slate-50/50 p-3 rounded border border-slate-200">
             {book.description ||
-              'No description is available for this book. This book can be borrowed for up to 7 days, subject to library borrowing policies.'}
+              'Use the Library Assistant Tool for more information about this book'}
           </p>
         </div>
       </div>
