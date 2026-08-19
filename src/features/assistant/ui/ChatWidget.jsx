@@ -79,7 +79,7 @@ export const ChatWidget = () => {
   return (
     <>
       {isOpen && (
-        <div className="fixed bottom-24 right-4 sm:right-6 z-50 w-[90vw] max-w-sm h-[28rem] max-h-[70vh] bg-white rounded-xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden">
+        <div className="fixed bottom-40 right-4 sm:right-6 z-50 w-[90vw] max-w-sm h-[28rem] max-h-[70vh] bg-white rounded-xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden">
           {/* Header */}
           <div className="px-4 py-3 bg-slate-900 text-white flex items-center justify-between shrink-0">
             <div className="flex items-center gap-2">
@@ -148,7 +148,7 @@ export const ChatWidget = () => {
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className="fixed bottom-5 right-4 sm:right-6 z-50 w-12 h-12 rounded-full bg-[#0EA5E9] hover:bg-sky-600 text-white shadow-lg flex items-center justify-center transition-colors cursor-pointer"
+        className="fixed bottom-20 right-4 sm:right-6 z-50 w-12 h-12 rounded-full bg-[#0EA5E9] hover:bg-sky-600 text-white shadow-lg flex items-center justify-center transition-colors cursor-pointer"
         aria-label="Toggle library assistant"
       >
         {isOpen ? <X className="w-5 h-5" /> : <MessageCircle className="w-5 h-5" />}

@@ -58,7 +58,7 @@ export const AppLayout = ({
             </div>
             <div className="text-center sm:text-right">
               <p>© {new Date().getFullYear()} All rights reserved.</p>
-              <p>Need help? Visit the Library Desk, Level 2, Central Library.</p>
+              <p>Need help? Visit the Library .</p>
             </div>
           </div>
         </footer>
