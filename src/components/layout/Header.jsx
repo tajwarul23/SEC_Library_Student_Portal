@@ -8,7 +8,7 @@ import {
   ChevronDown,
   BookOpen,
   LogOut,
-  LifeBuoy,
+  HelpCircle,
   Phone,
   Mail,
 } from 'lucide-react';
@@ -83,7 +83,7 @@ export const Header = ({
           aria-label="Contact library admin for help"
           title="Contact library admin"
         >
-          <LifeBuoy className="w-4 h-4" />
+          <HelpCircle className="w-4 h-4" />
           <span className="hidden sm:inline text-xs font-semibold">Help</span>
         </button>
 
