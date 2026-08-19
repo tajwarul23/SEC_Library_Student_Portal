@@ -2,8 +2,9 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { authService } from '../Services/authService';
 import { useNavigate } from 'react-router-dom';
 import { nav } from 'motion/react-client';
+import { USER_QUERY_KEY } from '../../../lib/queryClient';
 
-export const USER_QUERY_KEY = 'currentUser';
+export { USER_QUERY_KEY };
 
 export function useAuth() {
   const queryClient = useQueryClient();

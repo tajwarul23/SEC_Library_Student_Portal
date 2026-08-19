@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import toast, { Toaster } from 'react-hot-toast';
+import { queryClient } from './lib/queryClient';
 import { useAuth } from './features/auth/Hooks/useAuth';
 import { useNotifications, useNotificationActions } from './features/notifications/Hooks/useNotifications';
 import { AuthContainer } from './features/auth/AuthContainer';
@@ -12,15 +13,6 @@ import { WaitlistContainer } from './features/waitlist/WaitlistContainer';
 import { IssuedBooksContainer } from './features/issued/IssuedBooksContainer';
 import { ResearchPapersContainer } from './features/research/ResearchPapersContainer';
 import { LoadingState } from './components/common/LoadingState';
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      retry: 1,
-    },
-  },
-});
 
 function AppContent() {
   const { user, isLoading, logoutMutation } = useAuth();
