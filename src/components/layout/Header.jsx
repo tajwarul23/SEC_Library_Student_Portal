@@ -146,7 +146,7 @@ export const Header = ({
                         }
                       }}
                       className={`p-3 text-xs transition-colors cursor-pointer ${
-                        notif.read ? 'bg-white hover:bg-slate-50' : 'bg-blue-50/50 hover:bg-blue-50'
+                        notif.read ? 'bg-white hover:bg-slate-50' : 'bg-blue-100 hover:bg-blue-200'
                       }`}
                     >
                       <div className="flex items-start justify-between gap-2">
