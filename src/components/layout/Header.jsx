@@ -8,8 +8,15 @@ import {
   ChevronDown,
   BookOpen,
   LogOut,
+  LifeBuoy,
+  Phone,
+  Mail,
 } from 'lucide-react';
 import { Badge } from '../common/Badge';
+import { Modal } from '../common/Modal';
+
+const LIBRARY_ADMIN_PHONE = '+880-XXX-XXXXXX';
+const LIBRARY_ADMIN_EMAIL = 'library@sec.edu.bd';
 
 export const Header = ({
   user,
@@ -22,6 +29,7 @@ export const Header = ({
 }) => {
   const [isNotifOpen, setIsNotifOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
   const location = useLocation();
 
   const getBreadcrumbTitle = (path) => {
@@ -67,7 +75,16 @@ export const Header = ({
 
       {/* Right: Actions, Notification Center, Profile Dropdown */}
       <div className="flex items-center gap-3">
-        
+        {/* Library Admin Helpline */}
+        <button
+          type="button"
+          onClick={() => setIsHelpOpen(true)}
+          className="p-2 rounded-full text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors cursor-pointer"
+          aria-label="Contact library admin"
+          title="Contact library admin"
+        >
+          <LifeBuoy className="w-4 h-4" />
+        </button>
 
         {/* Notification Bell Dropdown */}
         <div className="relative">
@@ -227,6 +244,47 @@ export const Header = ({
           </div>
         )}
       </div>
+
+      {/* Library Admin Contact Modal */}
+      <Modal
+        isOpen={isHelpOpen}
+        onClose={() => setIsHelpOpen(false)}
+        title="Contact Library Admin"
+        subtitle="Reach out for help with your account, fines, or borrowed books"
+        maxWidth="sm"
+      >
+        <div className="space-y-3">
+          <a
+            href={`tel:${LIBRARY_ADMIN_PHONE}`}
+            className="flex items-center gap-3 p-3 rounded border border-slate-200 hover:bg-slate-50 transition-colors"
+          >
+            <div className="w-9 h-9 rounded-full bg-blue-50 text-[#1E3A8A] flex items-center justify-center shrink-0">
+              <Phone className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="text-xs font-medium text-slate-500">Phone</div>
+              <div className="text-sm font-semibold text-slate-900 font-mono">
+                {LIBRARY_ADMIN_PHONE}
+              </div>
+            </div>
+          </a>
+
+          <a
+            href={`mailto:${LIBRARY_ADMIN_EMAIL}`}
+            className="flex items-center gap-3 p-3 rounded border border-slate-200 hover:bg-slate-50 transition-colors"
+          >
+            <div className="w-9 h-9 rounded-full bg-blue-50 text-[#1E3A8A] flex items-center justify-center shrink-0">
+              <Mail className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="text-xs font-medium text-slate-500">Email</div>
+              <div className="text-sm font-semibold text-slate-900">
+                {LIBRARY_ADMIN_EMAIL}
+              </div>
+            </div>
+          </a>
+        </div>
+      </Modal>
     </header>
   );
 };
