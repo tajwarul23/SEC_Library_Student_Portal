@@ -14,6 +14,7 @@ export const AppLayout = ({
   onLogout,
 }) => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-slate-100 flex font-sans antialiased text-slate-800 selection:bg-sky-500 selection:text-white">
@@ -23,6 +24,11 @@ export const AppLayout = ({
         onLogout={onLogout}
         isMobileOpen={isMobileOpen}
         onCloseMobile={() => setIsMobileOpen(false)}
+        isChatOpen={isChatOpen}
+        onToggleChat={() => {
+          setIsChatOpen((prev) => !prev);
+          setIsMobileOpen(false);
+        }}
       />
 
       {/* Main Content Area (offset by w-64 on desktop) */}
@@ -64,7 +70,7 @@ export const AppLayout = ({
         </footer>
       </div>
 
-      <ChatWidget />
+      <ChatWidget isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
     </div>
   );
 };

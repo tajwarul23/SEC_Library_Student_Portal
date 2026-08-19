@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { BookOpenText, Loader2, MessageCircle, Send, X } from 'lucide-react';
+import { BookOpenText, Loader2, Send, X } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useAskAssistant } from '../Hooks/useAssistant';
 import { ChatMessage } from './ChatMessage';
@@ -22,8 +22,7 @@ const INITIAL_MESSAGE = {
     "Hi, I'm the Library Assistant! Tell me a topic or subject you're studying and I'll find books in our library that cover it.\n\nTry asking:\n1. \"Books on sorting algorithms\"\n2. \"What covers database normalization?\"\n3. \"Do we have anything on operating systems?\"",
 };
 
-export const ChatWidget = () => {
-  const [isOpen, setIsOpen] = useState(false);
+export const ChatWidget = ({ isOpen, onClose }) => {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState([INITIAL_MESSAGE]);
   const threadIdRef = useRef(null);
@@ -79,7 +78,7 @@ export const ChatWidget = () => {
   return (
     <>
       {isOpen && (
-        <div className="fixed bottom-40 right-4 sm:right-6 z-50 w-[90vw] max-w-sm h-[28rem] max-h-[70vh] bg-white rounded-xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden">
+        <div className="fixed z-50 bottom-4 left-4 right-4 sm:right-auto lg:left-70 w-auto sm:w-88 max-w-sm h-112 max-h-[70vh] bg-white rounded-xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden">
           {/* Header */}
           <div className="px-4 py-3 bg-slate-900 text-white flex items-center justify-between shrink-0">
             <div className="flex items-center gap-2">
@@ -93,7 +92,7 @@ export const ChatWidget = () => {
             </div>
             <button
               type="button"
-              onClick={() => setIsOpen(false)}
+              onClick={onClose}
               className="text-slate-400 hover:text-white p-1 rounded hover:bg-slate-800 transition-colors cursor-pointer"
             >
               <X className="w-4 h-4" />
@@ -143,21 +142,6 @@ export const ChatWidget = () => {
           </form>
         </div>
       )}
-
-      {/* Floating toggle button */}
-      <div className="fixed bottom-20 right-4 sm:right-6 z-50">
-        {!isOpen && (
-          <span className="absolute inset-0 rounded-full bg-[#0EA5E9] animate-ping opacity-75 pointer-events-none" />
-        )}
-        <button
-          type="button"
-          onClick={() => setIsOpen((prev) => !prev)}
-          className="relative w-14 h-14 rounded-full bg-[#0EA5E9] hover:bg-sky-600 text-white shadow-xl shadow-sky-500/40 ring-4 ring-white flex items-center justify-center transition-all hover:scale-105 cursor-pointer"
-          aria-label="Toggle library assistant"
-        >
-          {isOpen ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
-        </button>
-      </div>
     </>
   );
 };

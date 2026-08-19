@@ -7,6 +7,7 @@ import {
   BookMarked,
   FileText,
   LogOut,
+  MessageCircle,
 } from 'lucide-react';
 import { Badge } from '../common/Badge';
 import logo from '../../assets/logo.png';
@@ -16,6 +17,8 @@ export const Sidebar = ({
   onLogout,
   isMobileOpen,
   onCloseMobile,
+  isChatOpen,
+  onToggleChat,
 }) => {
   const navSections = [
     {
@@ -124,8 +127,19 @@ export const Sidebar = ({
         </div>
 
         {/* Pinned Bottom Strip */}
-        <div className="p-3 bg-[#152031] border-t border-slate-700/60">
-          
+        <div className="p-3 bg-[#152031] border-t border-slate-700/60 space-y-2">
+          <button
+            type="button"
+            onClick={onToggleChat}
+            className={`w-full flex items-center justify-center gap-2 px-3 py-2 rounded text-xs font-medium border transition-colors cursor-pointer ${
+              isChatOpen
+                ? 'bg-[#0EA5E9]/10 text-[#38BDF8] border-[#0EA5E9]/40'
+                : 'bg-slate-800/80 hover:bg-slate-800 text-slate-300 border-slate-700/80'
+            }`}
+          >
+            <MessageCircle className="w-3.5 h-3.5 text-[#38BDF8]" />
+            <span>Library Assistant</span>
+          </button>
 
           <button
             type="button"
