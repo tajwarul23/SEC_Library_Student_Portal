@@ -19,7 +19,7 @@ const INITIAL_MESSAGE = {
   id: 'greeting',
   role: 'assistant',
   content:
-    "Hi! I'm the Library Assistant. Ask me which books cover a topic you're studying, e.g. \"sorting algorithms\" or \"database normalization\".",
+    "Hi, I'm the Library Assistant! Tell me a topic or subject you're studying and I'll find books in our library that cover it.\n\nTry asking:\n1. \"Books on sorting algorithms\"\n2. \"What covers database normalization?\"\n3. \"Do we have anything on operating systems?\"",
 };
 
 export const ChatWidget = () => {
@@ -54,9 +54,17 @@ export const ChatWidget = () => {
         input: trimmed,
         threadId: threadIdRef.current,
       });
+      // Backend now returns a structured object: { type, message, books? }
+      const data = result?.ai || {};
       setMessages((prev) => [
         ...prev,
-        { id: crypto.randomUUID(), role: 'assistant', content: result.ai },
+        {
+          id: crypto.randomUUID(),
+          role: 'assistant',
+          content: data.message || "I couldn't generate a response. Please try again.",
+          books: data.books,
+          type: data.type,
+        },
       ]);
     } catch (error) {
       const message = error.extractedMessage || 'Failed to reach the library assistant.';
@@ -99,6 +107,8 @@ export const ChatWidget = () => {
                 key={msg.id}
                 role={msg.role}
                 content={msg.content}
+                books={msg.books}
+                type={msg.type}
                 isError={msg.isError}
               />
             ))}
