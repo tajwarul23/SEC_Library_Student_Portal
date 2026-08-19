@@ -29,7 +29,7 @@ export const ChatMessage = ({ role, content, books, type, isError = false }) => 
       <div className={`max-w-[85%] space-y-2 ${isUser ? 'items-end' : 'items-start'} flex flex-col`}>
         {content && (
           <div
-            className={`rounded-lg px-3 py-2 text-xs leading-relaxed whitespace-pre-wrap ${
+            className={`rounded-lg px-3 py-2 text-xs leading-relaxed whitespace-pre-wrap wrap-break-word ${
               isUser
                 ? 'bg-[#1E3A8A] text-white rounded-tr-none'
                 : isError

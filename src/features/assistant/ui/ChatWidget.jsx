@@ -100,7 +100,7 @@ export const ChatWidget = ({ isOpen, onClose }) => {
           </div>
 
           {/* Messages */}
-          <div ref={scrollRef} className="flex-1 overflow-y-auto p-3 space-y-3 bg-slate-50">
+          <div ref={scrollRef} className="flex-1 overflow-y-auto overflow-x-hidden p-3 space-y-3 bg-slate-50">
             {messages.map((msg) => (
               <ChatMessage
                 key={msg.id}
