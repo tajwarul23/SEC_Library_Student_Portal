@@ -145,14 +145,19 @@ export const ChatWidget = () => {
       )}
 
       {/* Floating toggle button */}
-      <button
-        type="button"
-        onClick={() => setIsOpen((prev) => !prev)}
-        className="fixed bottom-20 right-4 sm:right-6 z-50 w-12 h-12 rounded-full bg-[#0EA5E9] hover:bg-sky-600 text-white shadow-lg flex items-center justify-center transition-colors cursor-pointer"
-        aria-label="Toggle library assistant"
-      >
-        {isOpen ? <X className="w-5 h-5" /> : <MessageCircle className="w-5 h-5" />}
-      </button>
+      <div className="fixed bottom-20 right-4 sm:right-6 z-50">
+        {!isOpen && (
+          <span className="absolute inset-0 rounded-full bg-[#0EA5E9] animate-ping opacity-75 pointer-events-none" />
+        )}
+        <button
+          type="button"
+          onClick={() => setIsOpen((prev) => !prev)}
+          className="relative w-14 h-14 rounded-full bg-[#0EA5E9] hover:bg-sky-600 text-white shadow-xl shadow-sky-500/40 ring-4 ring-white flex items-center justify-center transition-all hover:scale-105 cursor-pointer"
+          aria-label="Toggle library assistant"
+        >
+          {isOpen ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
+        </button>
+      </div>
     </>
   );
 };
