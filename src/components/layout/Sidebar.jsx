@@ -155,14 +155,7 @@ export const Sidebar = ({
             </span>
           </button>
 
-          <button
-            type="button"
-            onClick={onLogout}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded bg-slate-800/80 hover:bg-red-950/40 hover:text-red-300 hover:border-red-800 text-slate-300 text-xs font-medium border border-slate-700/80 transition-colors cursor-pointer"
-          >
-            <LogOut className="w-3.5 h-3.5 text-red-400" />
-            <span>Sign Out Session</span>
-          </button>
+         
         </div>
       </aside>
     </>
