@@ -79,11 +79,12 @@ export const Header = ({
         <button
           type="button"
           onClick={() => setIsHelpOpen(true)}
-          className="p-2 rounded-full text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors cursor-pointer"
-          aria-label="Contact library admin"
+          className="flex items-center gap-1.5 pl-2 pr-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-blue-50 hover:text-[#1E3A8A] hover:border-blue-200 transition-colors cursor-pointer"
+          aria-label="Contact library admin for help"
           title="Contact library admin"
         >
           <LifeBuoy className="w-4 h-4" />
+          <span className="hidden sm:inline text-xs font-semibold">Help</span>
         </button>
 
         {/* Notification Bell Dropdown */}
