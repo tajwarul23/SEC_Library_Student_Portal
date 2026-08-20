@@ -1,7 +1,10 @@
 import React from 'react';
-import { AlertTriangle, ChevronRight, HelpCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { AlertTriangle, ChevronRight } from 'lucide-react';
 
-export const FineBanner = ({ fine, onHelpClick }) => {
+export const FineBanner = ({ fine }) => {
+  const navigate = useNavigate();
+
   if (!fine || fine <= 0) return null;
 
   return (
@@ -16,20 +19,18 @@ export const FineBanner = ({ fine, onHelpClick }) => {
             <span className="font-bold text-amber-950 font-mono text-sm underline decoration-amber-400">
               ৳{fine}
             </span>{' '}
-            — book reservations are temporarily restricted. Please clear your dues at the library desk.
+            — book reservations are temporarily restricted. Clear it online to restore access.
           </span>
         </div>
 
-        {onHelpClick && (
-          <button
-            type="button"
-            onClick={onHelpClick}
-            className="shrink-0 inline-flex items-center gap-1 text-[11px] font-semibold text-amber-800 hover:text-amber-950 underline cursor-pointer"
-          >
-            <span>Desk Hours & FAQ</span>
-            <ChevronRight className="w-3 h-3" />
-          </button>
-        )}
+        <button
+          type="button"
+          onClick={() => navigate('/fine')}
+          className="shrink-0 inline-flex items-center gap-1 text-[11px] font-semibold text-amber-800 hover:text-amber-950 underline cursor-pointer"
+        >
+          <span>Pay Now</span>
+          <ChevronRight className="w-3 h-3" />
+        </button>
       </div>
     </div>
   );

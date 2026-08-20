@@ -8,6 +8,7 @@ import {
   FileText,
   LogOut,
   Bot,
+  Receipt,
 } from 'lucide-react';
 import { Badge } from '../common/Badge';
 import logo from '../../assets/logo.png';
@@ -53,6 +54,11 @@ export const Sidebar = ({
           to: '/issued',
           label: 'My Issued Books',
           icon: BookMarked,
+        },
+        {
+          to: '/fine',
+          label: 'Fine Payments',
+          icon: Receipt,
         },
       ],
     },

@@ -12,6 +12,8 @@ import { ReservationsContainer } from './features/reservations/ReservationsConta
 import { WaitlistContainer } from './features/waitlist/WaitlistContainer';
 import { IssuedBooksContainer } from './features/issued/IssuedBooksContainer';
 import { ResearchPapersContainer } from './features/research/ResearchPapersContainer';
+import { FineContainer } from './features/fine/FineContainer';
+import { PaymentResultContainer } from './features/fine/PaymentResultContainer';
 import { LoadingState } from './components/common/LoadingState';
 
 function AppContent() {
@@ -88,6 +90,8 @@ function AppContent() {
           <Route path="/waitlist" element={<WaitlistContainer />} />
           <Route path="/issued" element={<IssuedBooksContainer />} />
           <Route path="/research" element={<ResearchPapersContainer />} />
+          <Route path="/fine" element={<FineContainer />} />
+          <Route path="/fine/payment-result" element={<PaymentResultContainer />} />
           {/* Catch-all fallback */}
           <Route path="*" element={<Navigate to="/books" replace />} />
         </Route>
