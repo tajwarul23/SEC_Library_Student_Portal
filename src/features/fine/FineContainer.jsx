@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CreditCard, AlertTriangle } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useAuth } from '../auth/Hooks/useAuth';
@@ -11,8 +11,15 @@ export const FineContainer = () => {
   const [offset, setOffset] = useState(0);
   const [limit] = useState(10);
 
-  const { user } = useAuth();
+  const { user, refetchUser } = useAuth();
   const fine = user?.fine || 0;
+
+  // The cached user object (useAuth's staleTime) can lag behind fine changes
+  // applied server-side (e.g. reservation-expiry cron). Force a fresh read
+  // whenever this page is visited so the fine total shown is never stale.
+  useEffect(() => {
+    refetchUser();
+  }, [refetchUser]);
 
   const { data, isLoading, isError, error, refetch } = usePaymentHistory({ offset, limit });
   const initPaymentMutation = useInitPayment();
