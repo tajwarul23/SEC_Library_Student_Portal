@@ -1,7 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { authService } from '../Services/authService';
 import { useNavigate } from 'react-router-dom';
-import { nav } from 'motion/react-client';
 import { USER_QUERY_KEY } from '../../../lib/queryClient';
 
 export { USER_QUERY_KEY };
@@ -47,6 +46,14 @@ export function useAuth() {
     },
   });
 
+  const guestLoginMutation = useMutation({
+    mutationFn: () => authService.guestLogin(),
+    onSuccess: (user) => {
+      queryClient.setQueryData([USER_QUERY_KEY], user);
+      queryClient.invalidateQueries();
+    },
+  });
+
   // TEMPORARY BRIDGE LOGIN — see authService.loginWithPassword.
   const passwordLoginMutation = useMutation({
     mutationFn: (payload) => authService.loginWithPassword(payload),
@@ -58,6 +65,7 @@ export function useAuth() {
 
   return {
     user: userQuery.data || null,
+    isGuest: userQuery.data?.role === 'guest',
     isLoading: userQuery.isLoading,
     isError: userQuery.isError,
     error: userQuery.error,
@@ -66,5 +74,6 @@ export function useAuth() {
     googleAuthMutation,
     logoutMutation,
     passwordLoginMutation,
+    guestLoginMutation,
   };
 }

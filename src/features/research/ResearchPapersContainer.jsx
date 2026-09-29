@@ -9,6 +9,8 @@ import { Badge } from '../../components/common/Badge';
 import { SearchFilterBar } from '../../components/common/SearchFilterBar';
 import { PaginationControls } from '../../components/common/PaginationControls';
 import { ExternalLink } from 'lucide-react';
+import { GuestSignInPrompt } from '../../components/common/GuestSignInPrompt';
+import { useAuth } from '../auth/Hooks/useAuth';
 
 const SEARCH_DEBOUNCE_MS = 300;
 
@@ -256,6 +258,7 @@ const MySubmissionsTab = () => {
 
 export const ResearchPapersContainer = () => {
   const [activeTab, setActiveTab] = useState('browse');
+  const { isGuest, logoutMutation } = useAuth();
 
   return (
     <div className="space-y-4">
@@ -285,10 +288,18 @@ export const ResearchPapersContainer = () => {
       </div>
 
       {activeTab === 'browse' && <BrowseTab />}
-      {activeTab === 'submit' && (
-        <SubmitResearchPaperForm onSuccess={() => setActiveTab('my-submissions')} />
-      )}
-      {activeTab === 'my-submissions' && <MySubmissionsTab />}
+      {activeTab === 'submit' &&
+        (isGuest ? (
+          <GuestSignInPrompt what="paper submissions" onSignIn={() => logoutMutation.mutate()} />
+        ) : (
+          <SubmitResearchPaperForm onSuccess={() => setActiveTab('my-submissions')} />
+        ))}
+      {activeTab === 'my-submissions' &&
+        (isGuest ? (
+          <GuestSignInPrompt what="submitted papers" onSignIn={() => logoutMutation.mutate()} />
+        ) : (
+          <MySubmissionsTab />
+        ))}
     </div>
   );
 };

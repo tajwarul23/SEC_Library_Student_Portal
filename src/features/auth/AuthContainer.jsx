@@ -8,7 +8,7 @@ import { BridgeLoginForm } from './ui/BridgeLoginForm';
 import toast from 'react-hot-toast';
 
 export const AuthContainer = () => {
-  const { user, checkRegNoMutation, googleAuthMutation, logoutMutation, passwordLoginMutation } = useAuth();
+  const { user, checkRegNoMutation, googleAuthMutation, logoutMutation, passwordLoginMutation, guestLoginMutation } = useAuth();
   const navigate = useNavigate();
 
   const [mode, setMode] = useState('step1'); // 'step1' | 'step2' | 'bridge_login'
@@ -94,6 +94,18 @@ export const AuthContainer = () => {
     }
   };
 
+  const handleGuest = async () => {
+    setErrorMessage(null);
+    setErrorType(null);
+    try {
+      await guestLoginMutation.mutateAsync();
+      toast.success('Browsing as guest (read-only).');
+      navigate('/books');
+    } catch (err) {
+      setErrorMessage(err.extractedMessage || 'Guest sign-in failed. Please try again.');
+    }
+  };
+
   // TEMPORARY BRIDGE LOGIN — see BridgeLoginForm.jsx.
   const handleBridgeLogin = async ({ regNo, password }) => {
     await passwordLoginMutation.mutateAsync({ regNo, password });
@@ -123,7 +135,8 @@ export const AuthContainer = () => {
       currentUser={user}
       errorMessage={errorMessage}
       errorType={errorType}
-      isLoading={checkRegNoMutation.isPending || googleAuthMutation.isPending}
+      isLoading={checkRegNoMutation.isPending || googleAuthMutation.isPending || guestLoginMutation.isPending}
+      onGuest={handleGuest}
       onRegNoChange={handleRegNoChange}
       onContinueStep1={handleContinueStep1}
       onGoogleSignIn={handleGoogleSignIn}

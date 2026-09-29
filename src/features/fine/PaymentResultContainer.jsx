@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
-import { CheckCircle2, XCircle, Loader2 } from 'lucide-react';
-import { usePaymentStatus } from './Hooks/useFine';
+import { CheckCircle2, XCircle, Loader2, Clock } from 'lucide-react';
+import { usePaymentStatus, PAYMENT_STATUS_POLL_TIMEOUT_MS } from './Hooks/useFine';
 import { PAYMENT_HISTORY_QUERY_KEY } from './Hooks/useFine';
 import { USER_QUERY_KEY } from '../../lib/queryClient';
 import { Button } from '../../components/common/Button';
@@ -18,6 +18,13 @@ export const PaymentResultContainer = () => {
   const queryClient = useQueryClient();
   const { data, isLoading } = usePaymentStatus(tranId);
   const transaction = data?.data;
+
+  // Stop showing the spinner after the polling window (see usePaymentStatus)
+  const [timedOut, setTimedOut] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => setTimedOut(true), PAYMENT_STATUS_POLL_TIMEOUT_MS);
+    return () => clearTimeout(timer);
+  }, []);
 
   const notifiedRef = useRef(false);
   useEffect(() => {
@@ -39,11 +46,21 @@ export const PaymentResultContainer = () => {
     );
   }
 
-  const isConfirming = isLoading || !transaction || transaction.status === 'PENDING';
+  const isPending = isLoading || !transaction || transaction.status === 'PENDING';
+  const isConfirming = isPending && !timedOut;
 
   return (
     <div className="max-w-md mx-auto mt-12 bg-white border border-slate-200 rounded-lg p-8 text-center shadow-2xs">
-      {isConfirming ? (
+      {isPending && timedOut ? (
+        <>
+          <Clock className="w-10 h-10 text-amber-600 mx-auto mb-4" />
+          <h2 className="text-base font-bold text-slate-900">Still Waiting for Confirmation</h2>
+          <p className="text-xs text-slate-500 mt-1">
+            SSLCommerz hasn't confirmed this payment yet. If you were charged, your fine will be
+            cleared automatically once it's confirmed. Check your Payment History in a few minutes.
+          </p>
+        </>
+      ) : isConfirming ? (
         <>
           <Loader2 className="w-10 h-10 text-[#1E3A8A] animate-spin mx-auto mb-4" />
           <h2 className="text-base font-bold text-slate-900">Confirming Payment...</h2>

@@ -15,6 +15,12 @@ export const authService = {
     return response.data?.data;
   },
 
+  // One-click read-only visit — no account or Google sign-in needed.
+  async guestLogin() {
+    const response = await apiClient.post('/api/user/guest');
+    return response.data?.data?.user || null;
+  },
+
   // Get current session user profile (returns null if unauthenticated / 401)
   // Real backend wraps the profile as { success, data: { user } } — unwrap here
   // so every consumer of useAuth().user gets the flat profile object.
@@ -41,10 +47,9 @@ export const authService = {
     }
   },
 
-  // TEMPORARY BRIDGE LOGIN — real backend still uses password-based
-  // /api/user/login (Firebase claim/login endpoints don't exist yet).
-  // Delete this method + BridgeLoginForm.jsx once real Google/Firebase
-  // sign-in is wired up.
+  // LOCAL-DEVELOPMENT PASSWORD LOGIN — only reachable from the dev server
+  // (see the "Dev only" link in AuthScreen.jsx). The backend answers 404
+  // unless ALLOW_PASSWORD_LOGIN=true and NODE_ENV isn't production.
   async loginWithPassword({ regNo, password }) {
     const response = await apiClient.post('/api/user/login', { regNo, password });
     return response.data?.data?.user || null;

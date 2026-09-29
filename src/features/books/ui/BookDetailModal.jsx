@@ -13,6 +13,8 @@ import {
 import { Modal } from '../../../components/common/Modal';
 import { Button } from '../../../components/common/Button';
 import { Badge } from '../../../components/common/Badge';
+import { useIsGuest } from '../../auth/Hooks/useIsGuest';
+import { useLibraryConfig, formatHold } from '../../../lib/libraryConfig';
 
 export const BookDetailModal = ({
   book,
@@ -24,6 +26,8 @@ export const BookDetailModal = ({
   isWaitlisting = false,
   hasFine = false,
 }) => {
+  const isGuest = useIsGuest();
+  const { reservationHoldMinutes } = useLibraryConfig();
   if (!book) return null;
 
   const isAvailable = book.availableCopies > 0;
@@ -46,17 +50,18 @@ export const BookDetailModal = ({
               size="xs"
               variant="primary"
               isLoading={isReserving}
-              disabled={hasFine}
+              disabled={isGuest || hasFine}
               onClick={() => onReserve(book)}
               leftIcon={<Clock className="w-3.5 h-3.5" />}
             >
-              Reserve Book (2 Hours Hold)
+              Reserve Book ({formatHold(reservationHoldMinutes)} hold)
             </Button>
           ) : (
             <Button
               size="xs"
               variant="accent"
               isLoading={isWaitlisting}
+              disabled={isGuest}
               onClick={() => onJoinWaitlist(book._id)}
               leftIcon={<ListOrdered className="w-3.5 h-3.5" />}
             >

@@ -15,10 +15,12 @@ import { ResearchPapersContainer } from './features/research/ResearchPapersConta
 import { FineContainer } from './features/fine/FineContainer';
 import { PaymentResultContainer } from './features/fine/PaymentResultContainer';
 import { LoadingState } from './components/common/LoadingState';
+import { GuestSignInPrompt } from './components/common/GuestSignInPrompt';
 
 function AppContent() {
-  const { user, isLoading, logoutMutation } = useAuth();
-  const { data: notifData } = useNotifications({ enabled: Boolean(user) });
+  const { user, isGuest, isLoading, logoutMutation } = useAuth();
+  // Guests have no notifications, so don't poll for them
+  const { data: notifData } = useNotifications({ enabled: Boolean(user) && !isGuest });
   const { markAsReadMutation, markAllReadMutation } = useNotificationActions();
 
   if (isLoading) {
@@ -46,6 +48,10 @@ function AppContent() {
       toast.error('Logout error.');
     }
   };
+
+  // Personal pages: guests have nothing of their own to show there
+  const personal = (page, what) =>
+    isGuest ? <GuestSignInPrompt what={what} onSignIn={handleLogout} /> : page;
 
   const handleNotificationRead = async (id) => {
     try {
@@ -86,12 +92,12 @@ function AppContent() {
         >
           <Route path="/" element={<Navigate to="/books" replace />} />
           <Route path="/books" element={<BrowseBooksContainer />} />
-          <Route path="/reservations" element={<ReservationsContainer />} />
-          <Route path="/waitlist" element={<WaitlistContainer />} />
-          <Route path="/issued" element={<IssuedBooksContainer />} />
+          <Route path="/reservations" element={personal(<ReservationsContainer />, 'reservations')} />
+          <Route path="/waitlist" element={personal(<WaitlistContainer />, 'waitlist')} />
+          <Route path="/issued" element={personal(<IssuedBooksContainer />, 'issued books')} />
           <Route path="/research" element={<ResearchPapersContainer />} />
-          <Route path="/fine" element={<FineContainer />} />
-          <Route path="/fine/payment-result" element={<PaymentResultContainer />} />
+          <Route path="/fine" element={personal(<FineContainer />, 'fines and payments')} />
+          <Route path="/fine/payment-result" element={personal(<PaymentResultContainer />, 'payments')} />
           {/* Catch-all fallback */}
           <Route path="*" element={<Navigate to="/books" replace />} />
         </Route>

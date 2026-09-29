@@ -28,6 +28,7 @@ export const AuthScreen = ({
   isLoading,
   onRegNoChange,
   onContinueStep1,
+  onGuest,
   onGoogleSignIn,
   onSwitchMode,
   onReset,
@@ -182,6 +183,30 @@ export const AuthScreen = ({
                     </>
                   )}
                 </button>
+
+                {/* One-click read-only visit — no account needed */}
+                <button
+                  type="button"
+                  disabled={isLoading}
+                  onClick={onGuest}
+                  className="w-full mt-3 py-2 px-4 text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 rounded disabled:opacity-60 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                >
+                  Continue as Guest (view only)
+                </button>
+
+                {/* Local-development password fallback. import.meta.env.DEV is
+                    false in production builds, so this never ships; the
+                    backend also refuses these routes unless
+                    ALLOW_PASSWORD_LOGIN=true outside production. */}
+                {import.meta.env.DEV && (
+                  <button
+                    type="button"
+                    onClick={() => onSwitchMode("bridge_login")}
+                    className="w-full mt-3 text-[11px] text-slate-400 hover:text-slate-600 underline cursor-pointer"
+                  >
+                    Dev only: sign in with regNo + password
+                  </button>
+                )}
               </div>
             )}
 
@@ -189,15 +214,12 @@ export const AuthScreen = ({
             {mode === "step2" && verifiedStudent && (
               <div>
                 <div className="p-4 bg-emerald-50 border border-emerald-200 rounded space-y-1 mb-5">
-                  <div className="flex items-center justify-between">
-                    <span className="flex items-center gap-1.5 text-xs font-semibold text-emerald-900">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                      Student Record Verified
-                    </span>
-                    <Badge department={verifiedStudent.department}>
-                      {verifiedStudent.department}
-                    </Badge>
-                  </div>
+                  <span className="flex items-center gap-1.5 text-xs font-semibold text-emerald-900">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                    Student Record Verified
+                  </span>
+                  {/* Name arrives masked (e.g. "T******* C********") — the
+                      public regNo check intentionally doesn't reveal more */}
                   <p className="text-sm text-emerald-950 font-semibold">
                     {verifiedStudent.name}
                   </p>
@@ -205,8 +227,7 @@ export const AuthScreen = ({
                     Reg:{" "}
                     <strong className="font-semibold">
                       {verifiedStudent.regNo}
-                    </strong>{" "}
-                    • Session: {verifiedStudent.Session}
+                    </strong>
                   </div>
                 </div>
 

@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
 import { FineBanner } from '../common/FineBanner';
+import { GuestBanner } from '../common/GuestBanner';
 import { ChatWidget } from '../../features/assistant/ui/ChatWidget';
 
 export const AppLayout = ({
@@ -44,10 +45,13 @@ export const AppLayout = ({
           onLogout={onLogout}
         />
 
+        {/* Guest (read-only) notice */}
+        {user?.role === 'guest' && <GuestBanner onSignIn={onLogout} />}
+
         {/* Global Persistent Fine Warning Banner */}
         <FineBanner
           fine={user?.fine}
-         
+
         />
 
         {/* Dynamic Route Content Canvas */}
