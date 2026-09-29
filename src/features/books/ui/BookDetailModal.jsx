@@ -13,6 +13,7 @@ import {
 import { Modal } from '../../../components/common/Modal';
 import { Button } from '../../../components/common/Button';
 import { Badge } from '../../../components/common/Badge';
+import { useIsGuest } from '../../auth/Hooks/useIsGuest';
 
 export const BookDetailModal = ({
   book,
@@ -24,6 +25,7 @@ export const BookDetailModal = ({
   isWaitlisting = false,
   hasFine = false,
 }) => {
+  const isGuest = useIsGuest();
   if (!book) return null;
 
   const isAvailable = book.availableCopies > 0;
@@ -46,7 +48,7 @@ export const BookDetailModal = ({
               size="xs"
               variant="primary"
               isLoading={isReserving}
-              disabled={hasFine}
+              disabled={isGuest || hasFine}
               onClick={() => onReserve(book)}
               leftIcon={<Clock className="w-3.5 h-3.5" />}
             >
@@ -57,6 +59,7 @@ export const BookDetailModal = ({
               size="xs"
               variant="accent"
               isLoading={isWaitlisting}
+              disabled={isGuest}
               onClick={() => onJoinWaitlist(book._id)}
               leftIcon={<ListOrdered className="w-3.5 h-3.5" />}
             >

@@ -10,6 +10,7 @@ import {
 import { Button } from '../../../components/common/Button';
 import { Badge } from '../../../components/common/Badge';
 import { BookCover } from './BookCover';
+import { useIsGuest } from '../../auth/Hooks/useIsGuest';
 
 export const BookCard = ({
   book,
@@ -20,6 +21,7 @@ export const BookCard = ({
   isWaitlisting = false,
   hasFine = false,
 }) => {
+  const isGuest = useIsGuest();
   const isAvailable = book.availableCopies > 0;
 
   return (
@@ -103,7 +105,7 @@ export const BookCard = ({
             variant="primary"
             className="flex-1"
             isLoading={isReserving}
-            disabled={hasFine}
+            disabled={isGuest || hasFine}
             onClick={() => onReserve(book)}
             leftIcon={<Clock className="w-3 h-3" />}
             title={hasFine ? 'Clear outstanding fine to reserve' : undefined}
@@ -116,6 +118,7 @@ export const BookCard = ({
             variant="accent"
             className="flex-1"
             isLoading={isWaitlisting}
+            disabled={isGuest}
             onClick={() => onJoinWaitlist(book._id)}
             leftIcon={<ListOrdered className="w-3 h-3" />}
           >

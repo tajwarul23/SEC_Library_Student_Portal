@@ -47,6 +47,14 @@ export function useAuth() {
     },
   });
 
+  const guestLoginMutation = useMutation({
+    mutationFn: () => authService.guestLogin(),
+    onSuccess: (user) => {
+      queryClient.setQueryData([USER_QUERY_KEY], user);
+      queryClient.invalidateQueries();
+    },
+  });
+
   // TEMPORARY BRIDGE LOGIN — see authService.loginWithPassword.
   const passwordLoginMutation = useMutation({
     mutationFn: (payload) => authService.loginWithPassword(payload),
@@ -58,6 +66,7 @@ export function useAuth() {
 
   return {
     user: userQuery.data || null,
+    isGuest: userQuery.data?.role === 'guest',
     isLoading: userQuery.isLoading,
     isError: userQuery.isError,
     error: userQuery.error,
@@ -66,5 +75,6 @@ export function useAuth() {
     googleAuthMutation,
     logoutMutation,
     passwordLoginMutation,
+    guestLoginMutation,
   };
 }

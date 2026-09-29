@@ -28,6 +28,7 @@ export const AuthScreen = ({
   isLoading,
   onRegNoChange,
   onContinueStep1,
+  onGuest,
   onGoogleSignIn,
   onSwitchMode,
   onReset,
@@ -181,6 +182,16 @@ export const AuthScreen = ({
                       <ArrowRight className="w-4 h-4" />
                     </>
                   )}
+                </button>
+
+                {/* One-click read-only visit — no account needed */}
+                <button
+                  type="button"
+                  disabled={isLoading}
+                  onClick={onGuest}
+                  className="w-full mt-3 py-2 px-4 text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 rounded disabled:opacity-60 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                >
+                  Continue as Guest (view only)
                 </button>
 
                 {/* Local-development password fallback. import.meta.env.DEV is

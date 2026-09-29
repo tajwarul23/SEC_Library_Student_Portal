@@ -15,6 +15,12 @@ export const authService = {
     return response.data?.data;
   },
 
+  // One-click read-only visit — no account or Google sign-in needed.
+  async guestLogin() {
+    const response = await apiClient.post('/api/user/guest');
+    return response.data?.data?.user || null;
+  },
+
   // Get current session user profile (returns null if unauthenticated / 401)
   // Real backend wraps the profile as { success, data: { user } } — unwrap here
   // so every consumer of useAuth().user gets the flat profile object.

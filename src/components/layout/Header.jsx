@@ -198,17 +198,24 @@ export const Header = ({
             {isProfileOpen && (
               <div className="absolute right-0 mt-2 w-72 bg-white border border-slate-200 rounded-lg shadow-xl py-2 z-50">
                 {/* Profile Summary Header */}
-                <div className="px-4 py-2.5 border-b border-slate-100 space-y-1">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-slate-900">{user.name}</span>
-                    <Badge department={user.department}>{user.department}</Badge>
+                {user.role === 'guest' ? (
+                  <div className="px-4 py-2.5 border-b border-slate-100 space-y-1">
+                    <span className="text-xs font-bold text-slate-900">Guest</span>
+                    <div className="text-[11px] text-slate-500">Read-only visitor, no account</div>
                   </div>
-                  <div className="text-[11px] font-mono text-slate-500">Reg: {user.regNo}</div>
-                  <div className="text-[11px] text-slate-500 truncate">{user.email}</div>
-                  <div className="text-[10px] font-mono text-slate-400">
-                    Session: {user.Session} • Gender: {user.gender}
+                ) : (
+                  <div className="px-4 py-2.5 border-b border-slate-100 space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-slate-900">{user.name}</span>
+                      <Badge department={user.department}>{user.department}</Badge>
+                    </div>
+                    <div className="text-[11px] font-mono text-slate-500">Reg: {user.regNo}</div>
+                    <div className="text-[11px] text-slate-500 truncate">{user.email}</div>
+                    <div className="text-[10px] font-mono text-slate-400">
+                      Session: {user.Session} • Gender: {user.gender}
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* Fine Status Box */}
                 <div className="p-3 bg-slate-50 mx-2 my-2 rounded border border-slate-200 text-xs">
