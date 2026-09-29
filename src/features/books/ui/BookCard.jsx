@@ -11,6 +11,7 @@ import { Button } from '../../../components/common/Button';
 import { Badge } from '../../../components/common/Badge';
 import { BookCover } from './BookCover';
 import { useIsGuest } from '../../auth/Hooks/useIsGuest';
+import { useLibraryConfig, formatHoldShort } from '../../../lib/libraryConfig';
 
 export const BookCard = ({
   book,
@@ -22,6 +23,7 @@ export const BookCard = ({
   hasFine = false,
 }) => {
   const isGuest = useIsGuest();
+  const { reservationHoldMinutes } = useLibraryConfig();
   const isAvailable = book.availableCopies > 0;
 
   return (
@@ -110,7 +112,7 @@ export const BookCard = ({
             leftIcon={<Clock className="w-3 h-3" />}
             title={hasFine ? 'Clear outstanding fine to reserve' : undefined}
           >
-            Reserve (2h)
+            Reserve ({formatHoldShort(reservationHoldMinutes)})
           </Button>
         ) : (
           <Button

@@ -2,19 +2,23 @@ import React from 'react';
 import { AlertTriangle, Clock } from 'lucide-react';
 import { Modal } from '../../../components/common/Modal';
 import { Button } from '../../../components/common/Button';
+import { useLibraryConfig, formatHold } from '../../../lib/libraryConfig';
 
 // Same confirm-dialog pattern as LeaveWaitlistModal — summary box + warning
 // box + Cancel / confirm action. Amber (not red) since this isn't a
 // destructive action, just a heads-up about the fine risk.
 export const ReserveConfirmModal = ({ isOpen, onClose, book, onConfirm, isReserving = false }) => {
+  const { reservationHoldMinutes, reservationExpiryFine } = useLibraryConfig();
   if (!book) return null;
+
+  const hold = formatHold(reservationHoldMinutes);
 
   return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
       title="Confirm Reservation"
-      subtitle="2-hour collection window applies"
+      subtitle={`${hold} collection window applies`}
       maxWidth="sm"
       footer={
         <>
@@ -44,9 +48,9 @@ export const ReserveConfirmModal = ({ isOpen, onClose, book, onConfirm, isReserv
         <div className="p-3 bg-amber-50 border border-amber-200 rounded text-amber-900 flex items-start gap-2">
           <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
           <p>
-            Reserving holds this copy for <strong>2 hours</strong>. If you don't collect it at the
+            Reserving holds this copy for <strong>{hold}</strong>. If you don't collect it at the
             circulation desk within that window, the reservation expires and a{' '}
-            <strong>৳20 fine</strong> will be added to your account.
+            <strong>৳{reservationExpiryFine} fine</strong> will be added to your account.
           </p>
         </div>
       </div>
